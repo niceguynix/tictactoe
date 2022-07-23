@@ -18,16 +18,8 @@ fn play(){
     
     for _i in 1..10{
         println!("{}",game_board);
-        print!("Player {} Choice :",{if player_turn  {1} else {2}});
-        io::stdout().flush().unwrap();
-        let mut s = String::with_capacity(2);
-        let i:usize;
-        let j:usize;
-        io::stdin().read_line(&mut s).expect("User input Failed");
-        let n:usize = s.trim().parse().expect("Input is not a number");
-        i = (n-1)/3;
-        j=(n-1)%3;
-
+        let n = get_user_input(player_turn);
+        let (i,j) = convert_input_to_pos(n);
         
         if game_board.board[i][j] != ' '{
             panic!("Position is already filled");
@@ -48,4 +40,22 @@ fn play(){
         println!("Draw!");
     }
 
+}
+
+
+fn get_user_input(player_turn : bool) ->usize {
+    print!("Player {} Choice :",{if player_turn  {1} else {2}});
+    io::stdout().flush().unwrap();
+    let mut s = String::with_capacity(2);
+    io::stdin().read_line(&mut s).expect("User input Failed");
+    s.trim().parse().expect("Input is not a number")
+    
+}
+
+fn convert_input_to_pos(n:usize)->(usize,usize){
+
+        let i = (n-1)/3;
+        let j =(n-1)%3;
+
+        (i,j)
 }
