@@ -1,14 +1,13 @@
 mod board;
-mod minmax;
+//mod minmax;
 
 
-use std::io;
+use std::io::{self , Write};
 
 
 fn main() {
 
         play();
-        minmax::MinMax::game_move();
 }
 
 
