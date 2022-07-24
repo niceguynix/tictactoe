@@ -1,5 +1,6 @@
 use std::fmt::{Formatter , Display ,Result};
 
+#[derive(Clone, Copy)]
 pub struct Board{
     pub board:[[char ;3];3]
 }
@@ -41,6 +42,21 @@ impl Board{
 
         false
     }
+}
+
+
+impl Board {
+    pub fn check_draw(&self) -> bool {
+        for i in 0..3 as usize{
+            for j in 0..3 as usize{
+                if self.board[i][j] == ' '{
+                    return false;
+                }
+            }
+        }
+        true
+    }
+
 }
 
 
