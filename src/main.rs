@@ -1,14 +1,59 @@
 mod board;
-//mod minmax;
-
+mod minimax;
+mod ai;
 
 use std::io::{self , Write};
+
+use ai::Move;
 
 
 fn main() {
 
-        play();
+        play_vs_ai();
 }
+
+
+
+
+
+fn play_vs_ai(){
+    
+    let mut game_board = board::Board::new();
+    let mut player_turn = true;
+    let mut player_won = false;
+    let ai = minimax::MiniMax::new();
+    
+    for _i in 1..10{
+        println!("{}",game_board);
+        let n = if _i%2==1 {get_user_input(player_turn)} else {ai.compute_move(&game_board , ai::Player::O)};
+        let (i,j) = convert_input_to_pos(n);
+        
+        if game_board.board[i][j] != ' '{
+            panic!("Position is already filled");
+        }
+
+        game_board.board[i][j] = if player_turn {'X'} else {'O'} ;
+
+
+        if game_board.check_win(){
+            player_won = true;
+            break;
+        } 
+        player_turn = !player_turn;
+    }
+    println!("{}",game_board);
+    if player_won {
+        println!("Player {} won",{if player_turn {1} else {2}} );
+    }else{
+        println!("Draw!");
+    }
+
+
+}
+
+
+
+
 
 
 fn play(){
