@@ -47,6 +47,7 @@ fn game_loop(p1: Player, p2: Player) {
     let mut game_board = Board::new();
     let mut curr_player = true;
     let minimax = MiniMax::new();
+    let mut game_won = false;
 
     for _i in 1..10 {
         println!("\n{}\n", game_board);
@@ -74,6 +75,7 @@ fn game_loop(p1: Player, p2: Player) {
         }
 
         if game_board.check_win() {
+            game_won = true;
             break;
         }
 
@@ -81,7 +83,10 @@ fn game_loop(p1: Player, p2: Player) {
     }
 
     println!("\n{}\n", game_board);
-    println!("{} won!", if curr_player { p1 } else { p2 })
+    match game_won {
+        true => println!("{} won!", if curr_player { p1 } else { p2 }),
+        false => println!("Draw!"),
+    }
 }
 
 fn get_user_input<T: FromStr>() -> T {
