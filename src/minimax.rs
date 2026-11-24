@@ -81,21 +81,30 @@ impl Move for MiniMax {
             false => 'X',
         };
 
+        let mut indices = vec![0];
         for i in 0..3 as usize {
             for j in 0..3 as usize {
                 if t.board[i][j] == ' ' {
                     t.board[i][j] = player_sign2;
 
                     let temp = Self::minimax_compute(&mut t, false, player_sign2, enemy_sign);
+                    if temp == max_value {
+                        let t = i * 3 + j + 1;
+                        indices.push(t);
+                    }
                     if temp > max_value {
+                        indices.clear();
                         max_value = temp;
                         n = i * 3 + j + 1;
+                        indices.push(n);
                     }
                     t.board[i][j] = ' ';
                 }
             }
         }
 
-        n
+        use rand::prelude::*;
+        let mut rng = rand::rng();
+        *indices.choose(&mut rng).unwrap() as usize
     }
 }
